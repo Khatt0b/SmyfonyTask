@@ -61,6 +61,7 @@ class ArticleTable
 
     public function __construct()
     {
+        $created_at=new \DateTime();
         $this->tags = new ArrayCollection();
         $this->commentTables = new ArrayCollection();
     }
@@ -72,6 +73,7 @@ class ArticleTable
 
     public function getTitle(): ?string
     {
+
         return $this->title;
     }
 

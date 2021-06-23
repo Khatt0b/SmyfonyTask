@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\TagTable;
+use App\Entity\Tag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method TagTable|null find($id, $lockMode = null, $lockVersion = null)
- * @method TagTable|null findOneBy(array $criteria, array $orderBy = null)
- * @method TagTable[]    findAll()
- * @method TagTable[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Tag[]    findAll()
+ * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class TagTableRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TagTable::class);
+        parent::__construct($registry, Tag::class);
     }
 
     // /**
-    //  * @return TagTable[] Returns an array of TagTable objects
+    //  * @return Tag[] Returns an array of Tag objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class TagTableRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TagTable
+    public function findOneBySomeField($value): ?Tag
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.exampleField = :val')

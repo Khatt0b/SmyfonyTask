@@ -52,14 +52,14 @@ class TagTable
     }
 
     /**
-     * @return Collection|ArticleTable[]
+     * @return Collection|Article[]
      */
     public function getArticleTables(): Collection
     {
         return $this->articleTables;
     }
 
-    public function addArticleTable(ArticleTable $articleTable): self
+    public function addArticleTable(Article $articleTable): self
     {
         if (!$this->articleTables->contains($articleTable)) {
             $this->articleTables[] = $articleTable;
@@ -69,7 +69,7 @@ class TagTable
         return $this;
     }
 
-    public function removeArticleTable(ArticleTable $articleTable): self
+    public function removeArticleTable(Article $articleTable): self
     {
         if ($this->articleTables->removeElement($articleTable)) {
             $articleTable->removeTag($this);

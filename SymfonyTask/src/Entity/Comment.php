@@ -44,12 +44,12 @@ class CommentTable
         return $this;
     }
 
-    public function getArticle(): ?ArticleTable
+    public function getArticle(): ?Article
     {
         return $this->article;
     }
 
-    public function setArticle(?ArticleTable $article): self
+    public function setArticle(?Article $article): self
     {
         $this->article = $article;
 

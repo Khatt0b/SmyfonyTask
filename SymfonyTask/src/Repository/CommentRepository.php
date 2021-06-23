@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\CategoryTable;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CategoryTable|null find($id, $lockMode = null, $lockVersion = null)
- * @method CategoryTable|null findOneBy(array $criteria, array $orderBy = null)
- * @method CategoryTable[]    findAll()
- * @method CategoryTable[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Comment[]    findAll()
+ * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategoryTableRepository extends ServiceEntityRepository
+class CommentTableRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CategoryTable::class);
+        parent::__construct($registry, Comment::class);
     }
 
     // /**
-    //  * @return CategoryTable[] Returns an array of CategoryTable objects
+    //  * @return Comment[] Returns an array of Comment objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CategoryTableRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CategoryTable
+    public function findOneBySomeField($value): ?Comment
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')
