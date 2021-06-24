@@ -1,2 +1,2 @@
-# SmyfonyTask
-SymfonyTask
+# SymfonyTask
+Symfony
