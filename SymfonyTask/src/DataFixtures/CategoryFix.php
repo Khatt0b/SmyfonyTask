@@ -2,19 +2,18 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Role;
-use App\Entity\Tag;
+use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class TagFixtures extends Fixture
+class CategoryFix extends Fixture
 {
     public function load(ObjectManager $manager)
     {
         for($i = 0;$i<20;$i++){
-            $tag = new Tag();
-            $tag->setName("tag$i");
-            $manager->persist($tag);
+            $category = new Category();
+            $category->setName("category$i");
+            $manager->persist($category);
             $manager->flush();
         }
     }
