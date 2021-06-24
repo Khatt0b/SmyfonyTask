@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UserTableRepository;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=UserTableRepository::class)
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class UserTable
+class User
 {
     /**
      * @ORM\Id
@@ -35,19 +35,19 @@ class UserTable
     private $pwd;
 
     /**
-     * @ORM\ManyToOne(targetEntity=RoleTable::class, inversedBy="rolename")
+     * @ORM\ManyToOne(targetEntity=Role::class, inversedBy="RoleMembers")
      * @ORM\JoinColumn(nullable=false)
      */
     private $roleTable;
 
     /**
-     * @ORM\OneToMany(targetEntity=ArticleTable::class, mappedBy="added_by")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="added_by")
      */
-    private $articleTables;
+    private $article;
 
     public function __construct()
     {
-        $this->articleTables = new ArrayCollection();
+        $this->article = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,14 +91,14 @@ class UserTable
         return $this;
     }
 
-    public function getRoleTable(): ?RoleTable
+    public function getRole(): ?Role
     {
         return $this->roleTable;
     }
 
-    public function setRoleTable(?RoleTable $roleTable): self
+    public function setRole(?Role $role): self
     {
-        $this->roleTable = $roleTable;
+        $this->roleTable = $role;
 
         return $this;
     }
@@ -106,27 +106,27 @@ class UserTable
     /**
      * @return Collection|Article[]
      */
-    public function getArticleTables(): Collection
+    public function getArticle(): Collection
     {
-        return $this->articleTables;
+        return $this->article;
     }
 
-    public function addArticleTable(Article $articleTable): self
+    public function addArticle(Article $article): self
     {
-        if (!$this->articleTables->contains($articleTable)) {
-            $this->articleTables[] = $articleTable;
-            $articleTable->setAddedBy($this);
+        if (!$this->article->contains($article)) {
+            $this->article[] = $article;
+            $article->setAddedBy($this);
         }
 
         return $this;
     }
 
-    public function removeArticleTable(Article $articleTable): self
+    public function removeArticle(Article $article): self
     {
-        if ($this->articleTables->removeElement($articleTable)) {
+        if ($this->article->removeElement($article)) {
             // set the owning side to null (unless already changed)
-            if ($articleTable->getAddedBy() === $this) {
-                $articleTable->setAddedBy(null);
+            if ($article->getAddedBy() === $this) {
+                $article->setAddedBy(null);
             }
         }
 

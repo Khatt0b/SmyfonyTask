@@ -2,14 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentTableRepository;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CommentTableRepository::class)
+ * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
-class CommentTable
+class Comment
 {
+    use TimeStamps;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -23,7 +25,7 @@ class CommentTable
     private $comment;
 
     /**
-     * @ORM\ManyToOne(targetEntity=ArticleTable::class, inversedBy="commentTables")
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="commentTables")
      */
     private $article;
 

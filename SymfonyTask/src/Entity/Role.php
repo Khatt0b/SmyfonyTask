@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\RoleTableRepository;
+use App\Repository\RoleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=RoleTableRepository::class)
+ * @ORM\Entity(repositoryClass=RoleRepository::class)
  */
-class RoleTable
+class Role
 {
     /**
      * @ORM\Id
@@ -20,13 +20,13 @@ class RoleTable
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserTable::class, mappedBy="roleTable")
+     * @ORM\OneToMany(targetEntity=User::class, mappedBy="roleTable")
      */
-    private $rolename;
+    private $RoleMembers;
 
     public function __construct()
     {
-        $this->rolename = new ArrayCollection();
+        $this->RoleMembers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -35,29 +35,29 @@ class RoleTable
     }
 
     /**
-     * @return Collection|UserTable[]
+     * @return Collection|User[]
      */
-    public function getRolename(): Collection
+    public function getRoleMembers(): Collection
     {
-        return $this->rolename;
+        return $this->RoleMembers;
     }
 
-    public function addRolename(UserTable $rolename): self
+    public function addRoleMembers(User $RoleMembers): self
     {
-        if (!$this->rolename->contains($rolename)) {
-            $this->rolename[] = $rolename;
-            $rolename->setRoleTable($this);
+        if (!$this->RoleMembers->contains($RoleMembers)) {
+            $this->RoleMembers[] = $RoleMembers;
+            $RoleMembers->setRole($this);
         }
 
         return $this;
     }
 
-    public function removeRolename(UserTable $rolename): self
+    public function removeRoleMembers(User $roleMembers): self
     {
-        if ($this->rolename->removeElement($rolename)) {
+        if ($this->RoleMembers->removeElement($roleMembers)) {
             // set the owning side to null (unless already changed)
-            if ($rolename->getRoleTable() === $this) {
-                $rolename->setRoleTable(null);
+            if ($roleMembers->getRole() === $this) {
+                $roleMembers->setRole(null);
             }
         }
 

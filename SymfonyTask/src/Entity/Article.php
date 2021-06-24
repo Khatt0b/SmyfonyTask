@@ -2,16 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleTableRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ArticleTableRepository::class)
+ * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
-class ArticleTable
+class Article
 {
+    use TimeStamps;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -30,22 +32,16 @@ class ArticleTable
     private $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity=CategoryTable::class, inversedBy="articleTables")
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articleTables")
      */
     private $category;
 
     /**
-     * @ORM\ManyToMany(targetEntity=TagTable::class, inversedBy="articleTables")
+     * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="articleTables")
      */
     private $tags;
-
     /**
-     * @ORM\Column(type="datetime_immutable")
-     */
-    private $created_at;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=UserTable::class, inversedBy="articleTables")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articleTables")
      */
     private $added_by;
 
@@ -55,15 +51,14 @@ class ArticleTable
     private $views;
 
     /**
-     * @ORM\OneToMany(targetEntity=CommentTable::class, mappedBy="article")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="article")
      */
-    private $commentTables;
+    private $comment;
 
     public function __construct()
     {
-        $created_at=new \DateTime();
         $this->tags = new ArrayCollection();
-        $this->commentTables = new ArrayCollection();
+        $this->comment = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -96,12 +91,12 @@ class ArticleTable
         return $this;
     }
 
-    public function getCategory(): ?CategoryTable
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?CategoryTable $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
 
@@ -109,14 +104,14 @@ class ArticleTable
     }
 
     /**
-     * @return Collection|TagTable[]
+     * @return Collection|Tag[]
      */
     public function getTags(): Collection
     {
         return $this->tags;
     }
 
-    public function addTag(TagTable $tag): self
+    public function addTag(Tag $tag): self
     {
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
@@ -125,7 +120,7 @@ class ArticleTable
         return $this;
     }
 
-    public function removeTag(TagTable $tag): self
+    public function removeTag(Tag $tag): self
     {
         $this->tags->removeElement($tag);
 
@@ -144,12 +139,12 @@ class ArticleTable
         return $this;
     }
 
-    public function getAddedBy(): ?UserTable
+    public function getAddedBy(): ?User
     {
         return $this->added_by;
     }
 
-    public function setAddedBy(?UserTable $added_by): self
+    public function setAddedBy(?User $added_by): self
     {
         $this->added_by = $added_by;
 
@@ -169,29 +164,29 @@ class ArticleTable
     }
 
     /**
-     * @return Collection|CommentTable[]
+     * @return Collection|Comment[]
      */
-    public function getCommentTables(): Collection
+    public function getComment(): Collection
     {
-        return $this->commentTables;
+        return $this->comment;
     }
 
-    public function addCommentTable(CommentTable $commentTable): self
+    public function addComment(Comment $comment): self
     {
-        if (!$this->commentTables->contains($commentTable)) {
-            $this->commentTables[] = $commentTable;
-            $commentTable->setArticle($this);
+        if (!$this->comment->contains($comment)) {
+            $this->comment[] = $comment;
+            $comment->setArticle($this);
         }
 
         return $this;
     }
 
-    public function removeCommentTable(CommentTable $commentTable): self
+    public function removeCommentTable(Comment $comment): self
     {
-        if ($this->commentTables->removeElement($commentTable)) {
+        if ($this->comment->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($commentTable->getArticle() === $this) {
-                $commentTable->setArticle(null);
+            if ($comment->getArticle() === $this) {
+                $comment->setArticle(null);
             }
         }
 

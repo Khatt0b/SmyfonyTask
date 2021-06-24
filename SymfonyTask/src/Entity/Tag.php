@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\TagTableRepository;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=TagTableRepository::class)
+ * @ORM\Entity(repositoryClass=TagRepository::class)
  */
-class TagTable
+class Tag
 {
     /**
      * @ORM\Id
@@ -25,7 +25,7 @@ class TagTable
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity=ArticleTable::class, mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity=Article::class, mappedBy="tags")
      */
     private $articleTables;
 
@@ -54,25 +54,25 @@ class TagTable
     /**
      * @return Collection|Article[]
      */
-    public function getArticleTables(): Collection
+    public function getArticle(): Collection
     {
         return $this->articleTables;
     }
 
-    public function addArticleTable(Article $articleTable): self
+    public function addArticle(Article $article): self
     {
-        if (!$this->articleTables->contains($articleTable)) {
-            $this->articleTables[] = $articleTable;
-            $articleTable->addTag($this);
+        if (!$this->articleTables->contains($article)) {
+            $this->articleTables[] = $article;
+            $article->addTag($this);
         }
 
         return $this;
     }
 
-    public function removeArticleTable(Article $articleTable): self
+    public function removeArticle(Article $article): self
     {
-        if ($this->articleTables->removeElement($articleTable)) {
-            $articleTable->removeTag($this);
+        if ($this->articleTables->removeElement($article)) {
+            $article->removeTag($this);
         }
 
         return $this;
