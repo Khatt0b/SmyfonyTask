@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ category.getName() }} {% endblock %}
+
+{% block body %}
+	<h1>Articles</h1>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<td>{{ category.getName() }} Articles</td>
+		</tr>
+		<tbody>
+		<tr>
+			<td>
+			{% for articles in category.getArticles() %}
+			<a href="{{ path("article.show",{id: articles.getId()}) }}">	 {{ articles.getTitle() }} </a>
+			{% endfor %}
+				</td>
+		</tr>
+
+		</tbody>
+		</thead>
+	</table>
+{% endblock %}

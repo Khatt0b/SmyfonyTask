@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ArticleController!{% endblock %}
+
+{% block body %}
+<h1>Articles</h1>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+    <td>ID</td>
+        <td>Title</td>
+        <td>Category</td>
+    </tr>
+    <tbody>
+    {% for article in aritcles %}
+        <tr>
+            <td>{{ article.getId() }}</td>
+            <td>
+            <a href="{{ path('article.show',{id:article.getId()}) }}">{{ article.getTitle() }}</a>
+            </td>
+            <td>
+                {{ article.getCategory() }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </thead>
+    </table>
+    <form action="{{ path("article.create") }}">
+    <button class="btn-primary btn"> Create an article
+    </form>
+    </button>
+{% endblock %}

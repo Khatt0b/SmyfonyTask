@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ article.getTitle() }} {% endblock %}
+
+{% block body %}
+    <h1>Articles</h1>
+    <table class="table table-striped">
+    <thead>
+    <tr>
+        <td>ID</td>
+        <td>Title</td>
+        <td>Category</td>
+        <td>Tags</td>
+        <td>Image</td>
+    </tr>
+    <tbody>
+    <tr>
+        <td>
+        {{ article.getId() }}
+        </td>
+        <td>
+            {{ article.getTitle() }}
+        </td>
+        <td>
+            {{ article.getCategory() }}
+        </td>
+        <td>
+            {% for tags in article.getTags() %}
+             {  {{ tags.getName() }} }
+            {% endfor %}
+        </td>
+        <td>
+            {{ article.getImage() }}
+        </td>
+    </tr>
+
+    </tbody>
+    </thead>
+    </table>
+{% endblock %}

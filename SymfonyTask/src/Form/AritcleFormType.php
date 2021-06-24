@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Article;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,11 +16,9 @@ class AritcleFormType extends AbstractType
             ->add('title')
             ->add('image')
             ->add('views')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('category')
-            ->add('tags')
-            ->add('added_by')
+            ->add("category")
+            ->add("tags")
+            ->add("submit",SubmitType::class)
         ;
     }
 

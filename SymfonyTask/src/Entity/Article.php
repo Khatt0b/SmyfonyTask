@@ -98,6 +98,7 @@ class Article
 
     public function setCategory(?Category $category): self
     {
+
         $this->category = $category;
 
         return $this;
