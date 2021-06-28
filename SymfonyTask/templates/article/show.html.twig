@@ -29,8 +29,8 @@
              {  {{ tags.getName() }} }
             {% endfor %}
         </td>
-        <td>
-            {{ article.getImage() }}
+        <td class="text-center field-image">
+            <img class="img-thumbnail" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.getTitle() }}"  />
         </td>
     </tr>
 

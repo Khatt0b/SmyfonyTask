@@ -9,11 +9,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
+
 /**
  * @Route("/article", name="article.")
  */
 class ArticleController extends AbstractController
 {
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        // Avoid calling getUser() in the constructor: auth may not
+        // be complete yet. Instead, store the entire Security object.
+        $this->security = $security;
+    }
     /**
      * @Route("/", name="article")
      */
@@ -35,6 +45,7 @@ class ArticleController extends AbstractController
         $form = $this->createForm(AritcleFormType::class,$article);
         $form->handleRequest($request);
         if($form->isSubmitted()){
+            $article->setAuthor($this->security->getUser());
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
@@ -51,4 +62,5 @@ class ArticleController extends AbstractController
             'article' => $article
         ]);
     }
+
 }

@@ -33,7 +33,27 @@
                 <li class="nav-item">
                     <a class="nav-link" href=" {{ path("category.category") }}">Categories</a>
                 </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href=" {{ path("admin") }}">Admin view</a>
+                    </li>
+                {% endif %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item">
+                        <a class="nav-link" href=" {{ path("app_logout") }}">Logout</a>
+                    </li>
+
+                {% endif %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
+                    <span style="float:left;">
+                         <li class="nav-item">
+                        <a class="nav-link" href=" {{ path("app_login") }}">login</a>
+                    </li>
+
+                    </span>
+                {% endif %}
         </div>
+
     </nav>
     <div class="container">
         {% block body %}{% endblock %}

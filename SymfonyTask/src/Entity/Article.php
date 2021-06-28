@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
+use Symfony\Component\HttpFoundation\File\File;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @ORM\HasLifecycleCallbacks()
+ * @Vich\Uploadable()
  */
 class Article
 {
@@ -27,6 +30,27 @@ class Article
     private $title;
 
     /**
+     * @ORM\Column(type="text");
+     */
+    private $content;
+
+    /**
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param mixed $content
+     */
+    public function setContent($content): void
+    {
+        $this->content = $content;
+    }
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $image;
@@ -41,20 +65,41 @@ class Article
      */
     private $tags;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
-     */
-    private $added_by;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $views;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="article")
      */
     private $comments;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     */
+    private $author;
+
+    /**
+     * @Vich\UploadableField(mapping="photos", fileNameProperty="image")
+     * @var File
+     */
+    private $imageFile;
+
+
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
 
     public function __construct()
     {
@@ -84,7 +129,7 @@ class Article
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
@@ -128,17 +173,6 @@ class Article
         return $this;
     }
 
-    public function getAddedBy(): ?User
-    {
-        return $this->added_by;
-    }
-
-    public function setAddedBy(?User $added_by): self
-    {
-        $this->added_by = $added_by;
-
-        return $this;
-    }
 
     public function getViews(): ?string
     {
@@ -178,6 +212,18 @@ class Article
                 $comment->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
