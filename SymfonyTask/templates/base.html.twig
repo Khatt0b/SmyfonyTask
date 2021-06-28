@@ -42,15 +42,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href=" {{ path("app_logout") }}">Logout</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=" {{ path("app_logout") }}">{{ app.user.getuserName() }}</a>
+                    </li>
 
                 {% endif %}
                 {% if is_granted('IS_AUTHENTICATED_FULLY') == false %}
-                    <span style="float:left;">
                          <li class="nav-item">
                         <a class="nav-link" href=" {{ path("app_login") }}">login</a>
                     </li>
-
-                    </span>
+                         <li class="nav-item">
+                        <a class="nav-link" href=" {{ path("app_register") }}">Register</a>
+                    </li>
                 {% endif %}
         </div>
 

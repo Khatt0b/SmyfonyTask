@@ -11,7 +11,9 @@
     {% for article in aritcles %}
         <div class="card" style="width: 100%;">
             <img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.getTitle() }}"  >
+
             <div class="card-body">
+                <h3 style="color:darkblue;">{{ article.getAuthor() }}</h3>
                 <h5 class="card-title">{{ article.getTitle() }}</h5>
                 <p class="card-text">{{ article.getContent() }}</p>
                 <a href="{{ path('article.show',{id:article.getId()}) }}" class="btn btn-primary">See full details</a>

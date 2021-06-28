@@ -7,22 +7,22 @@
     <table class="table table-striped">
     <thead>
     <tr>
-        <td>ID</td>
         <td>Title</td>
         <td>Category</td>
+        <td>Author</td>
         <td>Tags</td>
         <td>Image</td>
     </tr>
     <tbody>
     <tr>
         <td>
-        {{ article.getId() }}
-        </td>
-        <td>
             {{ article.getTitle() }}
         </td>
         <td>
             {{ article.getCategory() }}
+        </td>
+        <td>
+            {{ article.getAuthor() }}
         </td>
         <td>
             {% for tags in article.getTags() %}

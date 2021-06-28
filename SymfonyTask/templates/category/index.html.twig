@@ -22,8 +22,13 @@
         </tbody>
         </thead>
     </table>
-    <form action="{{ path("category.create") }}">
-        <button class="btn-primary btn"> Create an article
-    </form>
-    </button>
+    {% if is_granted('ROLE_ADMIN') %}
+        <form action="{{ path("category.create") }}">
+            <button class="btn-primary btn"> Create a new Category
+            </button>
+        </form>
+
+    {% endif %}
+
+
 {% endblock %}
