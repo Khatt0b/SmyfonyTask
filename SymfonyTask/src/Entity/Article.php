@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\HttpFoundation\File\File;
 use App\Repository\ArticleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -72,7 +73,28 @@ class Article
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
+     * @Gedmo\Translatable
+     * @Gedmo\Slug(fields={"title", "code"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles" , cascade={"remove"})
      */
     private $author;
 

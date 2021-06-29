@@ -46,6 +46,7 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted()){
             $article->setAuthor($this->security->getUser());
+            $article->setSlug(strtolower(preg_replace('/\s+/', '_', $article->getTitle())));
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
@@ -55,7 +56,7 @@ class ArticleController extends AbstractController
         ]);
     }
     /**
-     * @Route("/show/{id}", name="show")
+     * @Route("/show/{slug}", name="show")
      */
     public function show(Article $article){
         return $this->render("article/show.html.twig",[

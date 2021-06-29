@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -20,16 +21,14 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $roles = [
-            "ROLE_ADMIN" => 1,
-            "ROLE_USER"=> 2,
-        ];
-
 
         return [
             TextField::new('username'),
+            TextField::new('Email'),
             TextField::new('password'),
-            AssociationField::new('roles'),
+            BooleanField::new("isVerified"),
+            ChoiceField::new('roles')->setChoices(['ROLE_ADMIN' => 'ROLE_ADMIN',
+                'ROLE_USER'=>'ROLE_USER'])->allowMultipleChoices()
         ];
     }
 

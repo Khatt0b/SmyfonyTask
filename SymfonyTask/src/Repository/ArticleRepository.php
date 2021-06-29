@@ -22,6 +22,10 @@ class ArticleRepository extends ServiceEntityRepository
     {
         return $this->findBy(array(), array('createdAt' => 'DESC'));
     }
+    public function findByCategory(): array
+    {
+        return $this->findBy(array(), array('category' => 'ASC'));
+    }
 
 
     // /**

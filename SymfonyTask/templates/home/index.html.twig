@@ -16,7 +16,7 @@
 					<h3 style="color:darkblue;">{{ article.getAuthor() }}</h3>
 					<h5 class="card-title">{{ article.getTitle() }}</h5>
 					<p class="card-text">{{ article.getContent() }}</p>
-					<a href="{{ path('article.show',{id:article.getId()}) }}" class="btn btn-primary">See full details</a>
+					<a href="{{ path('article.show',{slug:article.getSlug()}) }}" class="btn btn-primary">See full details</a>
 				</div>
 			</div>
 		{% endfor %}

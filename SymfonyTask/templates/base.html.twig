@@ -43,7 +43,7 @@
                         <a class="nav-link" href=" {{ path("app_logout") }}">Logout</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=" {{ path("app_logout") }}">{{ app.user.getuserName() }}</a>
+                        <a class="nav-link" href=" {{ path("profile",{slug: app.user.getSlug()}) }}">{{ app.user.getuserName() }}</a>
                     </li>
 
                 {% endif %}

@@ -3,17 +3,24 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Container9xwYTEj\getSlugConfiguratorService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\String\AbstractUnicodeString;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Vich\UploaderBundle\Naming\SlugNamer;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -29,6 +36,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $username;
 
+
+
+
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
@@ -43,7 +53,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param mixed $emailver
+     * @param mixed $email
      */
     public function setEmail($email): string
     {
@@ -63,7 +73,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author")
+     * @ORM\OneToMany(targetEntity=Article::class, mappedBy="author",cascade={"remove"})
      */
     private $articles;
 
@@ -72,8 +82,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @Gedmo\Translatable
+     * @Gedmo\Slug(fields={"username", "code"})
+     * @ORM\Column(length=128, unique=true)
+     */
+    private $slug;
+
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    public function setSlug($slug): void
+    {
+        $this->slug = $slug;
+    }
+
+
     public function __construct()
     {
+
         $this->articles = new ArrayCollection();
     }
 
@@ -92,6 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setUsername(string $username): self
     {
+
         $this->username = $username;
 
         return $this;
