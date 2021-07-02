@@ -6,6 +6,7 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass=TagRepository::class)
@@ -28,6 +29,20 @@ class Tag
      * @ORM\ManyToMany(targetEntity=Article::class, mappedBy="tags")
      */
     private $articles;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"name"})
+     */
+    private $slug;
+
+    /**
+     * @return mixed
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     public function __construct()
     {
@@ -78,6 +93,6 @@ class Tag
         return $this;
     }
     public function __toString() {
-        return $this->name;
+        return $this->slug;
     }
 }

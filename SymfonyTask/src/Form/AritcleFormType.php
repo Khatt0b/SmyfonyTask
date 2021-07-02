@@ -21,7 +21,7 @@ class AritcleFormType extends AbstractType
             ->add('title')
             ->add('content',TextEditorType::class)
             ->add('imageFile',VichImageType::class)
-            ->add("category",)
+            ->add("category",)//entity Type
             ->add("tags")
             ->add("submit",SubmitType::class)
         ;

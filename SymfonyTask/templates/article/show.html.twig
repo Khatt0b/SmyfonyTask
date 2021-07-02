@@ -12,6 +12,7 @@
         <td>Author</td>
         <td>Tags</td>
         <td>Image</td>
+        <td> </td>
     </tr>
     <tbody>
     <tr>
@@ -32,6 +33,14 @@
         <td class="text-center field-image">
             <img class="img-thumbnail" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.getTitle() }}"  />
         </td>
+        {% if  is_granted("ROLE_USER") %}
+        {% if is_granted("ROLE_ADMIN") or app.user.getuserName() == article.getAuthor()  %}
+        <td class="alert-danger">
+            <a href="{{ path("article.delete",{slug: article.getSlug() }) }}"> Delete</a>
+            <a href="{{ path("article.edit",{slug: article.getSlug() }) }}"> |Edit</a>
+        </td>
+        {% endif %}
+        {% endif %}
     </tr>
 
     </tbody>

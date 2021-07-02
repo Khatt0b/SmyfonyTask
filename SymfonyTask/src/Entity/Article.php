@@ -14,6 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\Entity(repositoryClass=ArticleRepository::class)
  * @ORM\HasLifecycleCallbacks()
  * @Vich\Uploadable()
+ *
  */
 class Article
 {
@@ -73,9 +74,8 @@ class Article
     private $comments;
 
     /**
-     * @Gedmo\Translatable
-     * @Gedmo\Slug(fields={"title", "code"})
-     * @ORM\Column(length=128, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Gedmo\Slug(fields={"title"})
      */
     private $slug;
 
@@ -88,13 +88,14 @@ class Article
         return $this->slug;
     }
 
-    public function setSlug($slug): void
-    {
-        $this->slug = $slug;
-    }
+    //private function setSlug($title): void
+    //{
+    //    $this->slug=strtolower(preg_replace('/\s+/', '_', $title)).$this->getId();
+
+   // }
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles" , cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles" )
      */
     private $author;
 
@@ -142,7 +143,7 @@ class Article
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
+       // $this->setSlug($title);
         return $this;
     }
 
@@ -246,7 +247,7 @@ class Article
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
-
+        //$this->setSlug($this->title);
         return $this;
     }
 }

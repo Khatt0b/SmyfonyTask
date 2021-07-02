@@ -49,7 +49,6 @@ class ArticleSubscriber implements EventSubscriberInterface
         $entity = $event->getEntityInstance();
         if($entity instanceof Article){
             $entity->setAuthor($this->security->getUser());
-            $entity->setSlug(strtolower(preg_replace('/\s+/', '_', $entity->getTitle())));
         }
         if($entity instanceof User){
             $entity->setPassword(
@@ -58,7 +57,6 @@ class ArticleSubscriber implements EventSubscriberInterface
                     $entity->getPassword()
                 )
             );
-            $entity->setSlug(strtolower(preg_replace('/\s+/', '_', $entity->getUsername())));
         }
     }
 }

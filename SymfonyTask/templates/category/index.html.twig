@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ category.getId() }}</td>
                 <td>
-                    <a href="{{ path('category.show',{id:category.getId()}) }}">{{ category.getName() }}</a>
+                    <a href="{{ path('category.show',{slug:category.getSlug()}) }}">{{ category.getName() }}</a>
                 </td>
             </tr>
         {% endfor %}

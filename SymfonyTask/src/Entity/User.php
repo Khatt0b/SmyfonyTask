@@ -21,6 +21,7 @@ use Vich\UploaderBundle\Naming\SlugNamer;
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"slug"}, message="There is already an account with this username")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -84,7 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @Gedmo\Translatable
-     * @Gedmo\Slug(fields={"username", "code"})
+     * @Gedmo\Slug(fields={"username"})
      * @ORM\Column(length=128, unique=true)
      */
     private $slug;
@@ -98,10 +99,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->slug;
     }
 
-    public function setSlug($slug): void
-    {
-        $this->slug = $slug;
-    }
+   // private function setSlug($username): void
+  //  {
+  //      $this->slug=(strtolower(preg_replace('/\s+/', '_', $username)));
+  //  }
 
 
     public function __construct()
@@ -127,7 +128,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
 
         $this->username = $username;
-
+       // $this->setSlug($username);
         return $this;
     }
 

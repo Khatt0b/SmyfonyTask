@@ -54,16 +54,21 @@
         </div>
     </div>
     <h2>{{ user.getUsername() }}'s articles:</h2>
-    {% for article in user.getArticles() %}
+    <div style="width:70%; height:250px;" >
+        {% for article in user.getArticles() %}
         <div class="card" style="width: 100%;">
-            <img class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.getTitle() }}"  >
+            <img style="height:70%; width:300px;" class="card-img-top" src="{{ vich_uploader_asset(article, 'imageFile') }}" alt="{{ article.getTitle() }}"  >
             <div class="card-body">
                 <h3 style="color:darkblue;">{{ article.getAuthor() }}</h3>
                 <h5 class="card-title">{{ article.getTitle() }}</h5>
                 <p class="card-text">{{ article.getContent() }}</p>
-                <a href="{{ path('article.show',{slug:article.getSlug()}) }}" class="btn btn-primary">See full details</a>
+                <span>
+                <a href="{{ path('article.show',{slug: article.getSlug()}) }}" class="btn btn-primary">See full details</a>
+                <a href="{{ path('category.show',{ slug: article.getCategory() }) }}" class="btn btn-primary">{{ article.getCategory()}}</a>
+                </span>
             </div>
         </div>
-    {% endfor %}
 
+    {% endfor %}
+    </div>
 {% endblock %}

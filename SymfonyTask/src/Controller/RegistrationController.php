@@ -41,7 +41,6 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles(["ROLE_USER"]);
-            $user->setSlug(strtolower(preg_replace('/\s+/', '_', $user->getUsername())));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();

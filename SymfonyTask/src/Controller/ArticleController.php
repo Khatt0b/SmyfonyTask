@@ -46,10 +46,10 @@ class ArticleController extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted()){
             $article->setAuthor($this->security->getUser());
-            $article->setSlug(strtolower(preg_replace('/\s+/', '_', $article->getTitle())));
             $em = $this->getDoctrine()->getManager();
             $em->persist($article);
             $em->flush();
+            return $this->redirectToRoute('home.home');
         }
         return $this->render('article/create.html.twig',[
             "aritcleForm" => $form->createView()
@@ -63,5 +63,42 @@ class ArticleController extends AbstractController
             'article' => $article
         ]);
     }
+    /**
+     * @Route("/delete/{slug}", name="delete")
+     */
+    public function delete(Article $article){
+        if($this->security->isGranted("ROLE_ADMIN")|| $article->getAuthor() == $this->security->getUser()){
+           $em=$this->getDoctrine()->getManager();
+           $em->remove($article);
+           $em->flush();
 
+           return $this->redirect($this->generateUrl("article.article"));
+        }
+        return $this->render("article/show.html.twig",[
+            'article' => $article
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{slug}", name="edit")
+     */
+    public function edit(Article $article,Request $request)
+    {
+        if ($this->security->isGranted("ROLE_ADMIN") || $article->getAuthor() == $this->security->getUser()) {
+            $form = $this->createForm(AritcleFormType::class, $article);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                /** @var Article $article */
+                $article = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($article);
+                $em->flush();
+                $this->addFlash('success', 'Article Created! Knowledge is power!');
+                return $this->redirectToRoute('article.article');
+            }
+            return $this->render('article/edit.html.twig', [
+                'aritcleForm' => $form->createView()
+            ]);
+        }
+    }
 }

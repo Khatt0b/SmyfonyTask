@@ -13,7 +13,7 @@
 		<tr>
 			<td>
 			{% for articles in category.getArticles() %}
-			<a href="{{ path("article.show",{slug: articles.getSlug()}) }}">	 {{ articles.getTitle() }} </a>
+			<a href="{{ path("article.show",{slug: articles.getSlug() }) }}">	 {{ articles.getTitle() }} </a>
 			{% endfor %}
 				</td>
 		</tr>
