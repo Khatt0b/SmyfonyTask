@@ -3,21 +3,22 @@
 {% block title %} {{ category.getName() }} {% endblock %}
 
 {% block body %}
-	<h1>Articles</h1>
+	<h1>Category</h1>
 	<table class="table table-striped">
 		<thead>
 		<tr>
 			<td>{{ category.getName() }} Articles</td>
 		</tr>
 		<tbody>
+		{% for articles in category.getArticles() %}
 		<tr>
-			<td>
-			{% for articles in category.getArticles() %}
-			<a href="{{ path("article.show",{slug: articles.getSlug() }) }}">	 {{ articles.getTitle() }} </a>
-			{% endfor %}
-				</td>
-		</tr>
 
+			<td>
+				<a href="{{ path("article.show",{slug: articles.getSlug() }) }}">	 {{ articles.getTitle() }} </a>
+			</td>
+
+		</tr>
+		{% endfor %}
 		</tbody>
 		</thead>
 	</table>

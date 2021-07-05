@@ -26,4 +26,12 @@ Trait TimeStamps
     public function updatedAt(){
         $this->updatedAt=new \DateTime();
     }
+
+    public function getCreatedAt(){
+        return $this->updatedAt;
+    }
+
+    public function getUpdatedAt(){
+        return $this->updatedAt;
+    }
 }

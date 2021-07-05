@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/tag", name="tag")
+ * @Route("/tag", name="tag.")
  */
 class TagController extends AbstractController
 {

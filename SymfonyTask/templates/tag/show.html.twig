@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {{ tag.getName() }} {% endblock %}
+
+{% block body %}
+	<h1>Tags</h1>
+	<table class="table table-striped">
+		<thead>
+		<tr>
+			<td>{{ tag.getName() }} </td>
+		</tr>
+		<tbody>
+		{% for articles in tag.getArticles() %}
+		<tr>
+			<td>
+
+					<a href="{{ path("article.show",{slug: articles.getSlug() }) }}">	 {{ articles.getTitle() }} </a>
+
+			</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+		</thead>
+	</table>
+{% endblock %}

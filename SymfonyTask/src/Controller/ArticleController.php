@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Form\AritcleFormType;
 use App\Repository\ArticleRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +39,7 @@ class ArticleController extends AbstractController
     }
     /**
      * @Route("/create", name="create")
+     * @IsGranted("ROLE_USER")
      */
     public function createArticle(Request $request): Response
     {
@@ -65,26 +67,23 @@ class ArticleController extends AbstractController
     }
     /**
      * @Route("/delete/{slug}", name="delete")
+     * @IsGranted("ARTICLE_DELETE",subject="article")
      */
     public function delete(Article $article){
-        if($this->security->isGranted("ROLE_ADMIN")|| $article->getAuthor() == $this->security->getUser()){
+
            $em=$this->getDoctrine()->getManager();
            $em->remove($article);
            $em->flush();
 
            return $this->redirect($this->generateUrl("article.article"));
-        }
-        return $this->render("article/show.html.twig",[
-            'article' => $article
-        ]);
     }
 
     /**
      * @Route("/edit/{slug}", name="edit")
+     * @IsGranted("ARTICLE_EDIT",subject="article")
      */
     public function edit(Article $article,Request $request)
     {
-        if ($this->security->isGranted("ROLE_ADMIN") || $article->getAuthor() == $this->security->getUser()) {
             $form = $this->createForm(AritcleFormType::class, $article);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -99,6 +98,6 @@ class ArticleController extends AbstractController
             return $this->render('article/edit.html.twig', [
                 'aritcleForm' => $form->createView()
             ]);
-        }
+
     }
 }

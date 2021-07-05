@@ -20,7 +20,7 @@
                 <span>
                 <a href="{{ path('category.show',{ slug: article.getCategory() }) }}" class="btn btn-dark" style="">{{ article.getCategory()}}</a>
                     {% for tag in article.getTags() %}
-                        <a href="{{ path('tag.show',{ slug: article.getCategory() }) }}" class="btn btn-dark">{{ tag}}</a>
+                        <a href="{{ path('tag.show',{ slug: tag.getSlug() }) }}" class="btn btn-dark">{{ tag}}</a>
                     {% endfor %}
                 </span>
             </div>
